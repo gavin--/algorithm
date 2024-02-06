@@ -24,7 +24,7 @@ std::vector<U> dijkstra(std::span<Container<P<T, U>>> graph, T source) {
 }
 
 template<template<class, class> class Map, template <class...> class Container, template<class, class> class P, class T, class U>
-std::vector<U> dijkstra(const Map<T, Container<P<T, U>>>& graph, T source) {
+std::vector<U> dijkstra(const Map<T, const Container<P<T, U>>>& graph, T source) {
   std::vector<U> distance(graph.size(), std::numeric_limits<U>::max());
   distance[source] = 0;
   std::set<std::pair<U, T>> vertices;
