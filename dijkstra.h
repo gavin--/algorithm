@@ -7,19 +7,19 @@ template<template <class...> class Container, template<class, class> class P, cl
 std::vector<U> dijkstra(std::span<const Container<P<T, U>>> graph, T source) {
   std::vector<U> distance(graph.size(), std::numeric_limits<U>::max());
   distance[source] = 0;
-  std::set<std::pair<U, T>> vertices;
-  vertices.emplace(0, source);
+  std::set<std::pair<U, T>> s;
+  s.emplace(0, source);
   do {
-    auto vertex = vertices.begin()->second;
-    vertices.erase(vertices.begin());
+    auto vertex = s.begin()->second;
+    s.erase(s.begin());
     for (auto [next, weight] : graph[vertex]) {
       if (distance[next] > distance[vertex] + weight) {
-        vertices.erase({distance[next], next});
+        s.erase({distance[next], next});
         distance[next] = distance[vertex] + weight;
-        vertices.emplace(distance[next], next);
+        s.emplace(distance[next], next);
       }
     }
-  } while (!vertices.empty());
+  } while (!s.empty());
   return distance;
 }
 
@@ -27,19 +27,19 @@ template<template<class, class> class Map, template <class...> class Container, 
 std::vector<U> dijkstra(const Map<T, const Container<P<T, U>>>& graph, T source) {
   std::vector<U> distance(graph.size(), std::numeric_limits<U>::max());
   distance[source] = 0;
-  std::set<std::pair<U, T>> vertices;
-  vertices.emplace(0, source);
+  std::set<std::pair<U, T>> s;
+  s.emplace(0, source);
   do {
-    auto vertex = vertices.begin()->second;
-    vertices.erase(vertices.begin());
+    auto vertex = s.begin()->second;
+    s.erase(s.begin());
     for (auto [next, weight] : graph.at(vertex)) {
       if (distance[next] > distance[vertex] + weight) {
-        vertices.erase({distance[next], next});
+        s.erase({distance[next], next});
         distance[next] = distance[vertex] + weight;
-        vertices.emplace(distance[next], next);
+        s.emplace(distance[next], next);
       }
     }
-  } while (!vertices.empty());
+  } while (!s.empty());
   return distance;
 }
 
