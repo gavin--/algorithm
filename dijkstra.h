@@ -31,12 +31,14 @@ Map<T, U> dijkstra(const Map<T, Container<P<T, U>>>& graph, T source) {
   s.emplace(0, source);
   do {
     auto vertex = s.begin()->second;
+    auto dist = distance[vertex];
     s.erase(s.begin());
     for (auto [next, weight] : graph.at(vertex)) {
-      if (distance[next] > distance[vertex] + weight) {
-        s.erase({distance[next], next});
-        distance[next] = distance[vertex] + weight;
-        s.emplace(distance[next], next);
+      auto& next_dist = distance[next];
+      if (next_dist > dist + weight) {
+        s.erase({next_dist, next});
+        next_dist = dist + weight;
+        s.emplace(next_dist, next);
       }
     }
   } while (!s.empty());
