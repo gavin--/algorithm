@@ -4,7 +4,7 @@
 #include <ranges>
 
 template<template <class...> class Container, template<class, class> class P, class T, class U>
-std::vector<U> dijkstra(std::span<Container<P<T, U>>> graph, T source) {
+std::vector<U> dijkstra(std::span<const Container<P<T, U>>> graph, T source) {
   std::vector<U> distance(graph.size(), std::numeric_limits<U>::max());
   distance[source] = 0;
   std::set<std::pair<U, T>> vertices;
@@ -45,5 +45,5 @@ std::vector<U> dijkstra(const Map<T, const Container<P<T, U>>>& graph, T source)
 
 template<std::ranges::contiguous_range R, class T>
 auto dijkstra(R&& r, T source) {
-  return dijkstra(std::span<std::ranges::range_value_t<R>>(r), source);
+  return dijkstra(std::span<const std::ranges::range_value_t<R>>(r), source);
 }
