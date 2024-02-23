@@ -24,12 +24,10 @@ class Dsu {
     }
 
     void Union(T left, T right) {
-      left = Find(left), right= Find(right);
+      left = Find(left);
+      right= Find(right);
       if (left == right) {
         return;
-      }
-      if (size_[left] < size_[right]) {
-        std::swap(left, right);
       }
       parent_[right] = left;
       size_[left] += size_[right];
