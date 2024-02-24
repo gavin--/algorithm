@@ -23,17 +23,18 @@ class Dsu {
       return vertex;
     }
 
-    void Union(T left, T right) {
+    bool Union(T left, T right) {
       left = Find(left);
       right= Find(right);
       if (left == right) {
-        return;
+        return false;
       }
       parent_[right] = left;
       size_[left] += size_[right];
+      return true;
     }
 
-    T size(T vertex) {
+    T Size(T vertex) {
       return size_[Find(vertex)];
     }
 };
