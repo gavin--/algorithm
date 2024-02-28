@@ -1,13 +1,12 @@
 template<class T>
 T sqrt(T n) {
-  T begin = 0, end = n;
-  while (begin < end) {
-    auto mid = (end + begin + 1) / 2;
-    if (mid <= n / mid) {
-      begin = mid;
-    } else {
-      end = mid - 1;
-    }
+  if (n <= 1) {
+    return n;
   }
-  return end;
+  auto result = n / 2, next = (result + n / result) / 2;
+  while (result < next) {
+    result = next;
+    next = (result + n / result) / 2;
+  }
+  return result;
 }
