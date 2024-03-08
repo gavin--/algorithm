@@ -1,4 +1,6 @@
-#include <bit>
+#if __cplusplus >= 202002L
+  #include <bit>
+#endif
 #include <type_traits>
 
 template<class T>
