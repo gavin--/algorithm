@@ -9,11 +9,11 @@ T sqrt(T n) {
     return n;
   }
   #if __cplusplus >= 202002L
-    std::make_unsigned_t<T> result = T(1) << ((std::bit_width(std::make_unsigned_t<T>(n)) - 1) / 2 + 1);
+    auto result = T(1) << ((std::bit_width(std::make_unsigned_t<T>(n)) - 1) / 2 + 1);
   #else
-    std::make_unsigned_t<T> result = n / 2;
+    auto result = n / 2;
   #endif
-  std::make_unsigned_t<T> next = (result + n / result) / 2;
+  auto next = (result + n / result) / 2;
   while (next < result) {
     result = next;
     next = (result + n / result) / 2;
