@@ -70,3 +70,8 @@ template<class T, class Compare>
 bool operator>=(const MinStack<T, Compare>& left, const MinStack<T, Compare>& right) {
   return !(left < right);
 }
+
+template<class T, class Compare>
+void swap(MinStack<T, Compare>& left, MinStack<T, Compare>& right) noexcept {
+  left.swap(right);
+}
