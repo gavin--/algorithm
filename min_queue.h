@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <functional>
 #include <utility>
 #include <vector>
@@ -41,29 +42,22 @@ class MinQueue {
   
   void push(T&& value) {
     std::pair<T, T> p;
-    if (left_.empty()) {
-      p.second = value;
-    } else {
-      p.second = std::min(value, left_.back().second, Compare());
-    }
+    p.second = left_.empty() ? value : std::min(value, left_.back().second, Compare());
     p.first = std::move(value);
     left_.push_back(std::move(p));
   }
   
   void pop() {
     if (right_.empty()) {
-      do {
-        right_.push_back(left_.back());
-        left_.pop_back();
-      } while (!left_.empty());
+      left_.swap(right_);
+      reverse(right_.begin(), right_.end());
     }
     right_.pop_back();
   }
   
   void swap(MinQueue<T, Compare>& other) noexcept {
-    using std::swap;
-    swap(left_, other.left_);
-    swap(right_, other.right_);
+    left_.swap(other.left_);
+    right_.swap(other.right_);
   }
 };
 
