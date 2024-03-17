@@ -5,7 +5,7 @@
 template<class T, class Compare = std::less<T>>
 class MinStack {
   protected:
-   std::stack<pair<T, T>> stack_;
+   std::stack<std::pair<T, T>> stack_;
   public:
     auto empty() const {
       return stack_.empty();
