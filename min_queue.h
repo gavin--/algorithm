@@ -5,8 +5,8 @@
 
 template<class T, class Compare = std::less<T>>
 class MinQueue {
-  protected:
-   std::vector<std::pair<T, T>> left_, right_;
+ protected:
+  std::vector<std::pair<T, T>> left_, right_;
  public:
   auto empty() const {
     return left_.empty() && right_.empty();
