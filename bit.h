@@ -10,12 +10,12 @@ class Bit {
     return n & -n;
   }
  public:
-  Bit(std::size_t size) : tree_(size) {}
+  Bit(std::size_t size) : tree_(size + 1) {}
   
-  Bit(const std::vector<T>& tree) : Bit(tree.size()) {
-    for (std::size_t i = 1; i < tree.size(); ++i) {
-      tree_[i] += tree[i];
-      if (auto parent = i + lowbit(i); parent < tree.size()) {
+  Bit(const std::vector<T>& tree) : Bit(tree.size() + 1) {
+    for (std::size_t i = 1; i <= tree.size(); ++i) {
+      tree_[i] += tree[i - 1];
+      if (auto parent = i + lowbit(i); parent < tree_.size()) {
         tree_[parent] += tree_[i];
       }
     }
@@ -23,17 +23,15 @@ class Bit {
   
   T query(std::size_t index) {
     T result = 0;
-    while (index > 0) {
+    for (++index; index > 0; index -= lowbit(index)) {
       result += tree_[index];
-      index -= lowbit(index);
     }
     return result;
   }
   
   void update(std::size_t index, T value) {
-    while (index < tree_.size()) {
+    for (++index; index < tree_.size(); index += lowbit(index)) {
       tree_[index] += value;
-      index += lowbit(index);
     }
   }
 };
