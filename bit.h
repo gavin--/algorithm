@@ -12,8 +12,8 @@ class Bit {
  public:
   Bit(std::size_t size) : tree_(size + 1) {}
   
-  Bit(const std::vector<T>& tree) : Bit(tree.size() + 1) {
-    for (std::size_t i = 1; i <= tree.size(); ++i) {
+  Bit(const std::vector<T>& tree) : Bit(tree.size()) {
+    for (std::size_t i = 1; i < tree_.size(); ++i) {
       tree_[i] += tree[i - 1];
       if (auto parent = i + lowbit(i); parent < tree_.size()) {
         tree_[parent] += tree_[i];
