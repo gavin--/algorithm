@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <vector>
 
 template <class T>
@@ -5,10 +6,10 @@ class Dsu {
  private:
   std::vector<T> parent_, size_;
  public:
-  Dsu(T size) : size_(size, 1), parent_([&]() {
+  Dsu(std::size_t size) : size_(size, 1), parent_([&]() {
     std::vector<T> parent;
     parent.reserve(size);
-    for (T i = 0; i < size; ++i) {
+    for (std::size_t i = 0; i < size; ++i) {
       parent.emplace_back(i);
     }
     return parent;
