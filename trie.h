@@ -5,13 +5,12 @@
 template <class T>
 class PrefixTrie {
  private:
-  std::vector<std::vector<T>> trie_;
+  std::vector<std::vector<std::size_t>> trie_;
  public:
-  PrefixTrie() : trie_(1, std::vector<T>(std::numeric_limits<T>::max())) {}
+  PrefixTrie() : trie_(1, std::vector<std::size_t>(std::numeric_limits<T>::max())) {}
   
   void Insert(const std::basic_string<T>& key) {
-    T t = 0;
-    for (std::size_t i = 0; i <= key.size(); ++i) {
+    for (std::size_t i = 0, t = 0; i <= key.size(); ++i) {
       if (trie_[t][key[i]] == 0) {
         trie_[t][key[i]] = trie_.size();
         trie_.emplace_back(std::numeric_limits<T>::max());
@@ -21,8 +20,7 @@ class PrefixTrie {
   }
   
   bool Find(const std::basic_string<T>& key) {
-    T t = 0;
-    for (std::size_t i = 0; i <= key.size(); ++i) {
+    for (std::size_t i = 0, t = 0; i <= key.size(); ++i) {
       if (trie_[t][key[i]] == 0) {
         return false;
       }
@@ -32,8 +30,7 @@ class PrefixTrie {
   }
   
   bool StartsWith(const std::basic_string<T>& key) {
-    T t = 0;
-    for (std::size_t i = 0; i < key.size(); ++i) {
+    for (std::size_t i = 0, t = 0; i < key.size(); ++i) {
       if (trie_[t][key[i]] == 0) {
         return false;
       }
@@ -47,9 +44,9 @@ template <class T>
 class Trie {
  private:
   class Node {
-    public:
-      std::vector<Node*> children_;
-      Node() : children_(std::numeric_limits<T>::max()) {}
+   public:
+    std::vector<Node*> children_;
+    Node() : children_(std::numeric_limits<T>::max()) {}
   };
   Node* const root_ = new Node();
  public:
