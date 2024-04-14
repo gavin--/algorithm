@@ -51,11 +51,16 @@ class Dsu<T, true> {
   Dsu(std::size_t size) : parent_or_size_(size, -1) {}
 
   T Find(T vertex) {
-    if (parent_or_size_[vertex] < 0) {
-      return vertex;
+    auto root = vertex;
+    while (parent_or_size_[root] > 0) {
+      root = parent_or_size_[root];
     }
-    parent_or_size_[vertex] = Find(parent_or_size_[vertex]);
-    return parent_or_size_[vertex];
+    while (parent_or_size_[vertex] > 0) {
+      auto parent = parent_or_size_[vertex];
+      parent_or_size_[vertex] = root;
+      vertex = parent;
+    }
+    return root;
   }
 
   bool Union(T left, T right) {
