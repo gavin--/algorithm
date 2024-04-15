@@ -5,6 +5,7 @@
 
 template <class T>
 class PrefixTrie {
+  static_assert(std::is_unsigned<T>::value);
  private:
   std::vector<std::array<std::size_t, std::numeric_limits<T>::max() + 1>> trie_;
  public:
@@ -43,6 +44,7 @@ class PrefixTrie {
 
 template <class T>
 class Trie {
+  static_assert(std::is_unsigned<T>::value);
  private:
   class Node {
    public:
