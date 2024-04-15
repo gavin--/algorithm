@@ -8,21 +8,19 @@ class Dsu;
 template <class T>
 class Dsu<T, false> {
  private:
-  std::vector<T> parent_, size_;
+  std::vector<T> parent_or_size_;
+  std::vector<bool> is_parent_;
  public:
-  Dsu(std::size_t size) : parent_([&]() {
-    std::vector<T> parent;
-    parent.reserve(size);
-    for (std::size_t i = 0; i < size; ++i) {
-      parent.emplace_back(i);
-    }
-    return parent;
-  }()), size_(size, 1), {}
+  Dsu(std::size_t size) : parent_or_size_(size, 1), is_parent_(size, false) {}
 
   T Find(T vertex) {
-    while (parent_[vertex] != vertex) {
-      parent_[vertex] = parent_[parent_[vertex]];
-      vertex = parent_[vertex];
+    while (is_parent_[vertex]) {
+      if (is_parent_[parent_or_size_[vertex]]) {
+        parent_or_size_[vertex] = parent_or_size_[parent_or_size_[vertex]];
+      } else {
+        parent_or_size_[vertex] = parent_or_size_[vertex];
+      }
+      vertex = parent_or_size_[vertex];
     }
     return vertex;
   }
@@ -33,13 +31,14 @@ class Dsu<T, false> {
     if (left == right) {
       return false;
     }
-    size_[left] += size_[right];
-    parent_[right] = left;
+    parent_or_size_[left] += parent_or_size_[right];
+    parent_or_size_[right] = left;
+    is_parent_[right] = true;
     return true;
   }
 
   T Size(T vertex) {
-    return size_[Find(vertex)];
+    return parent_or_size_[Find(vertex)];
   }
 };
 
