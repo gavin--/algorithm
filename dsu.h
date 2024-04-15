@@ -2,7 +2,7 @@
 #include <type_traits>
 #include <vector>
 
-template <class T, bool B = std::is_signed<T>::value>
+template <class T, bool = std::is_signed<T>::value>
 class Dsu;
 
 template <class T>
