@@ -1,3 +1,4 @@
+#include <array>
 #include <cstddef>
 #include <limits>
 #include <vector>
@@ -5,15 +6,15 @@
 template <class T>
 class PrefixTrie {
  private:
-  std::vector<std::vector<std::size_t>> trie_;
+  std::vector<std::array<std::size_t, std::numeric_limits<T>::max() + 1>> trie_;
  public:
-  PrefixTrie() : trie_(1, std::vector<std::size_t>(std::numeric_limits<T>::max())) {}
+  PrefixTrie() : trie_(1) {}
   
   void Insert(const std::basic_string<T>& key) {
     for (std::size_t i = 0, t = 0; i <= key.size(); ++i) {
       if (trie_[t][key[i]] == 0) {
         trie_[t][key[i]] = trie_.size();
-        trie_.emplace_back(std::numeric_limits<T>::max());
+        trie_.push_back({});
       }
       t = trie_[t][key[i]];
     }
@@ -45,8 +46,7 @@ class Trie {
  private:
   class Node {
    public:
-    std::vector<Node*> children_;
-    Node() : children_(std::numeric_limits<T>::max()) {}
+    std::array<Node*, std::numeric_limits<T>::max() + 1> children_;
   };
   Node* const root_ = new Node();
  public:
