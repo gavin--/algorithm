@@ -14,7 +14,7 @@ class PrefixTrie {
     for (std::size_t i = 0, t = 0; i <= key.size(); ++i) {
       auto& child_node = trie_[t][key[i]];
       if (child_node == 0) {
-        trie_[t][key[i]] = trie_.size();
+        child_node = trie_.size();
         trie_.push_back({});
       }
       t = child_node;
