@@ -1,42 +1,44 @@
-#include <array>
 #include <cstddef>
 #include <limits>
+#include <map>
 #include <vector>
 
 template <class T>
 class PrefixTrie {
-  static_assert(std::is_unsigned<T>::value);
  private:
-  std::vector<std::array<std::size_t, std::numeric_limits<T>::max() + 1>> trie_;
+  std::vector<std::map<T, std::size_t>> trie_;
  public:
   PrefixTrie() : trie_(1) {}
   
   void Insert(const std::basic_string<T>& key) {
     for (std::size_t i = 0, t = 0; i <= key.size(); ++i) {
-      if (trie_[t][key[i]] == 0) {
+      auto& child_node = trie_[t][key[i]];
+      if (child_node == 0) {
         trie_[t][key[i]] = trie_.size();
         trie_.push_back({});
       }
-      t = trie_[t][key[i]];
+      t = child_node;
     }
   }
   
   bool Find(const std::basic_string<T>& key) {
     for (std::size_t i = 0, t = 0; i <= key.size(); ++i) {
-      if (trie_[t][key[i]] == 0) {
+      auto it = trie_[t].find(key[i]);
+      if (it == trie_[t].end()) {
         return false;
       }
-      t = trie_[t][key[i]];
+      t = it->second;
     }
     return true;
   }
   
   bool StartsWith(const std::basic_string<T>& key) {
     for (std::size_t i = 0, t = 0; i < key.size(); ++i) {
-      if (trie_[t][key[i]] == 0) {
+      auto it = trie_[t].find(key[i]);
+      if (it == trie_[t].end()) {
         return false;
       }
-      t = trie_[t][key[i]];
+      t = it->second;
     }
     return true;
   }
@@ -44,46 +46,49 @@ class PrefixTrie {
 
 template <class T>
 class Trie {
-  static_assert(std::is_unsigned<T>::value);
  private:
   class Node {
    public:
-    std::array<Node*, std::numeric_limits<T>::max() + 1> children_;
+    std::map<T, Node*> children_;
   };
   Node* const root_ = new Node();
  public:
   void Insert(const std::basic_string<T>& key) {
     Node* node = root_;
     for (std::size_t i = 0; i <= key.size(); ++i) {
-      if (node->children_[key[i]] == nullptr) {
-        node->children_[key[i]] = new Node();
+      auto& child_node = node->children_[key[i]];
+      if (child_node == nullptr) {
+        child_node = new Node();
       }
-      node = node->children_[key[i]];
+      node = child_node;
     }
   }
   
   void Delete(const std::basic_string<T>& key) {
     Node* node = root_;
     for (std::size_t i = 0; i < key.size(); ++i) {
-      if (node->children_[key[i]] == nullptr) {
+      if (auto it = node->children_.find(key[i]); it == node->children_.end()) {
         return;
+      } else {
+        node = it->second;
       }
-      node = node->children_[key[i]];
     }
-    if (node->children_[key[key.size()]] == nullptr) {
+    if (auto it = node->children_.find(key[key.size()]); it == node->children_.end()) {
       return;
+    } else {
+      delete it->second;
+      node->children_.erase(it);
     }
-    delete node->children_[key[key.size()]];
-    node->children_[key[key.size()]] = nullptr;
   }
   
   bool Find(const std::basic_string<T>& key) {
     Node* node = root_;
     for (std::size_t i = 0; i <= key.size(); ++i) {
-      if (node->children_[key[i]] == nullptr) {
+      if (auto it = node->children_.find(key[i]); it == node->children_.end()) {
         return false;
+      } else {
+        node = it->second;
       }
-      node = node->children_[key[i]];
     }
     return true;
   }
