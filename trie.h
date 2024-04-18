@@ -1,5 +1,4 @@
 #include <cstddef>
-#include <limits>
 #include <map>
 #include <vector>
 
@@ -21,7 +20,7 @@ class PrefixTrie {
     }
   }
   
-  bool Find(const std::basic_string<T>& key) {
+  bool Find(const std::basic_string<T>& key) const {
     for (std::size_t i = 0, t = 0; i <= key.size(); ++i) {
       auto it = trie_[t].find(key[i]);
       if (it == trie_[t].end()) {
@@ -32,7 +31,7 @@ class PrefixTrie {
     return true;
   }
   
-  bool StartsWith(const std::basic_string<T>& key) {
+  bool StartsWith(const std::basic_string<T>& key) const {
     for (std::size_t i = 0, t = 0; i < key.size(); ++i) {
       auto it = trie_[t].find(key[i]);
       if (it == trie_[t].end()) {
@@ -81,7 +80,7 @@ class Trie {
     }
   }
   
-  bool Find(const std::basic_string<T>& key) {
+  bool Find(const std::basic_string<T>& key) const {
     Node* node = root_;
     for (std::size_t i = 0; i <= key.size(); ++i) {
       if (auto it = node->children_.find(key[i]); it == node->children_.end()) {
