@@ -21,7 +21,7 @@ class Bit {
     }
   }
   
-  T Query(std::size_t index) {
+  T Query(std::size_t index) const {
     T result = 0;
     for (++index; index > 0; index -= Lowbit(index)) {
       result += tree_[index];
