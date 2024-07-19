@@ -1,5 +1,5 @@
-template<class T>
-T pow(T base, T exp) {
+template<class T, class U>
+T pow(T base, U exp) {
   T result = 1;
   while (exp > 0) {
     if (exp % 2 == 1) {
@@ -11,8 +11,8 @@ T pow(T base, T exp) {
   return result;
 }
 
-template<class T>
-T pow(T base, T exp, T mod) {
+template<class T, class U>
+T pow(T base, U exp, T mod) {
   T result = 1;
   while (exp > 0) {
     if (exp % 2 == 1) {
