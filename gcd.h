@@ -21,11 +21,13 @@ std::pair<T, T> extended_gcd(T a, T b) {
   return {r, t};
 }
 
+// Returns a positive multiplicative inverse of `a` modulo `n`.
+// gcd(`a`, `n`) must be 1.
 template<class T>
-T inverse(T a, T b) {
-  auto result = extended_gcd(a, b).second;
+T inverse(T a, T n) {
+  auto result = extended_gcd(a, n).second;
   if (result < 0) {
-    result += b;
+    result += n;
   }
   return result;
 }
