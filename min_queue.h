@@ -18,33 +18,30 @@ class MinQueue {
   
   auto front() const {
     if (left_.empty()) {
-      return right_.back().first;
+      return right_.back().second;
     }
-    return left_.front().first;
+    return left_.front().second;
   }
   
   auto back() const {
     if (right_.empty()) {
-      return left_.back().first;
+      return left_.back().second;
     }
-    return right_.front().first;
+    return right_.front().second;
   }
   
   auto min() const {
     if (!left_.empty()) {
       if (!right_.empty()) {
-        return std::min(left_.back().second, right_.back().second, Compare());
+        return std::min(left_.back().first, right_.back().frist, Compare());
       }
-      return left_.back().second;
+      return left_.back().first;
     }
-    return right_.back().second;
+    return right_.back().first;
   }
   
-  void push(T&& value) {
-    std::pair<T, T> p;
-    p.second = left_.empty() ? value : std::min(value, left_.back().second, Compare());
-    p.first = std::move(value);
-    left_.push_back(std::move(p));
+  void push(T value) {
+    left_.push_back({left_.empty() ? value : std::min(value, left_.back().second, Compare()), std::move(value)});
   }
   
   void pop() {
