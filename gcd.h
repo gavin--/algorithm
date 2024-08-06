@@ -1,17 +1,10 @@
+#include <type_traits>
 #include <tuple>
 #include <utility>
 
-template<class T>
-T gcd(T a, T b) {
-  while (b != 0) {
-    a = std::exchange(b, a % b);
-  }
-  return a;
-}
-
-template<class T>
-std::pair<T, T> extended_gcd(T a, T b) {
-  auto t = 0, next_t = 1, r = b, next_r = a;
+template<class M, class N>
+std::pair<std::common_type_t<M, N>, std::common_type_t<M, N>> extended_gcd(M m, N n) {
+  std::common_type_t<M, N> t = 0, next_t = 1, r = n, next_r = m;
   while (next_r != 0) {
     auto q = r / next_r;
     std::tie(t, next_t) = std::make_tuple(next_t, t - q * next_t);
@@ -22,8 +15,8 @@ std::pair<T, T> extended_gcd(T a, T b) {
 
 // Returns a positive multiplicative inverse of `a` modulo `n`.
 // gcd(`a`, `n`) must be 1.
-template<class T>
-T inverse(T a, T n) {
+template<class M, class N>
+std::common_type_t<M, N> inverse(M a, N n) {
   auto result = extended_gcd(a, n).second;
   if (result < 0) {
     result += n;
