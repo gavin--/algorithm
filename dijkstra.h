@@ -13,11 +13,10 @@ std::map<T, U> dijkstra(const std::map<T, Neighbors>& graph, const T& source) {
     auto [dist_v, v] = *q.begin();
     q.erase(q.begin());
     for (const auto& [u, w] : graph.at(v)) {
-      auto it = distance.find(u);
-      if (it == distance.end()) {
-        it = distance.insert({u, std::numeric_limits<U>::max()}).first;
-      }
-      if (it->second > dist_v + w) {
+      if (auto it = distance.find(u); it == distance.end()) {
+        distance[u] = dist_v + w;
+        q.emplace(dist_v + w, u);
+      } else if (it->second > dist_v + w) {
         q.erase({it->second, u});
         it->second = dist_v + w;
         q.emplace(it->second, u);
