@@ -10,6 +10,9 @@ public:
   const Neighbors& operator[](std::size_t pos) const {
     return graph_[pos];
   }
+  auto size() const {
+    return graph_.size();
+  }
 private:
   std::vector<Neighbors> graph_;
 };
