@@ -23,7 +23,7 @@ U prim(const std::vector<Neighbors>& graph, const T& source) {
         q.emplace(w, u);
       }
     }
-  } while (!edges.empty());
+  } while (!q.empty());
   return result;
 }
 
