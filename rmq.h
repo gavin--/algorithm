@@ -19,7 +19,7 @@ public:
     }
   }
 
-  auto Query(std::size_t l, std::size_t r) {
+  auto Query(std::size_t l, std::size_t r) const {
     assert(l >= 0 && r > l);
     T result = std::numeric_limits<T>::max();
     auto block_begin = (l == 0 ? 0 : (l - 1) / block_size_ + 1), block_end = r / block_size_;
