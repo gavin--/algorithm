@@ -1,10 +1,12 @@
 #if __cplusplus >= 202002L
   #include <bit>
 #endif
+#include <cassert>
 #include <type_traits>
 
 template<class T>
 T sqrt(T n) {
+  assert(n >= 0);
   if (n <= 1) {
     return n;
   }
