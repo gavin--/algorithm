@@ -1,16 +1,14 @@
+#include <cassert>
 #include <cstddef>
+#include <limits>
 #include <vector>
 
 template <class T>
 class Bit {
- private:
-  std::vector<T> tree_;
-  
-  std::size_t Lowbit(std::size_t n) {
-    return n & -n;
-  }
  public:
-  Bit(std::size_t size) : tree_(size + 1) {}
+  Bit(std::size_t size) : tree_(size + 1) {
+    assert(size < std::numeric_limits<std::size_t>::max());
+  }
   
   Bit(const std::vector<T>& tree) : Bit(tree.size()) {
     for (std::size_t i = 1; i < tree_.size(); ++i) {
@@ -33,5 +31,11 @@ class Bit {
     for (++index; index < tree_.size(); index += Lowbit(index)) {
       tree_[index] += value;
     }
+  }
+ private:
+  std::vector<T> tree_;
+  
+  std::size_t Lowbit(std::size_t n) {
+    return n & -n;
   }
 };
