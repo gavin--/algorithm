@@ -1,12 +1,12 @@
+#ifndef EXPERIMENTAL_USERS_GAVINZ_TRIE_H_
+#define EXPERIMENTAL_USERS_GAVINZ_TRIE_H_
+
 #include <cstddef>
 #include <map>
 #include <vector>
 
 template <class T>
 class PrefixTrie {
- private:
-  std::vector<std::map<T, std::size_t>> trie_;
-
  public:
   PrefixTrie() : trie_(1) {}
 
@@ -42,17 +42,13 @@ class PrefixTrie {
     }
     return true;
   }
+
+ private:
+  std::vector<std::map<T, std::size_t>> trie_;
 };
 
 template <class T>
 class Trie {
- private:
-  class Node {
-   public:
-    std::map<T, Node*> children_;
-  };
-  Node* const root_ = new Node();
-
  public:
   void Insert(const std::basic_string<T>& key) {
     Node* node = root_;
@@ -94,4 +90,13 @@ class Trie {
     }
     return true;
   }
+
+ private:
+  class Node {
+   public:
+    std::map<T, Node*> children_;
+  };
+  Node* const root_ = new Node();
 };
+
+#endif  // EXPERIMENTAL_USERS_GAVINZ_TRIE_H_
