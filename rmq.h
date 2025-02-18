@@ -1,3 +1,4 @@
+#include <bit>
 #include <cassert>
 #include <limits>
 #include <span>
@@ -42,6 +43,34 @@ public:
   }
 private:
   const std::size_t block_size_;
-  std::span<T> data_;
+  const std::span<T> data_;
   std::vector<T> blocks_;
+};
+
+template <class T>
+class SparseTable {
+public:
+  SparseTable(std::span<T> data) : sparse_table_([&data]() {
+    std::vector<std::vector<T>> sparse_table;
+    sparse_table.resize(std::bit_width(data.size()) - 1);
+    sparse_table.front().reserve(data.size());
+    sparse_table.front().insert(sparse_table.front().end(), data.begin(), data.end());
+    for (std::size_t i = 1; i < sparse_table.size(); ++i) {
+      sparse_table[i].resize(data.size() - (1 << i) + 1);
+      for (std::size_t j = 0; j + (1 << i) <= data.size(); ++j) {
+        sparse_table[i][j] = std::min(sparse_table[i - 1][j], sparse_table[i - 1][j + (1 << (i - 1))]);
+      }
+    }
+    return sparse_table;
+  }()) {
+    assert(!data.empty());
+  }
+
+  auto Query(std::size_t l, std::size_t r) const {
+    assert(l >= 0 && r > l);
+    auto log = std::bit_width(r - l) - 1;
+    return std::min(sparse_table_[log][l], sparse_table_[log][r - (1 << log)]);
+  }
+private:
+  const std::vector<std::vector<T>> sparse_table_;
 };
