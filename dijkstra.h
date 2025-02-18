@@ -3,7 +3,7 @@
 #include <set>
 #include <vector>
 
-template<class U, class Neighbors, class T>
+template <class U, class Neighbors, class T>
 std::map<T, U> dijkstra(const std::map<T, Neighbors>& graph, const T& source) {
   std::map<T, U> distance;
   distance[source] = 0;
@@ -26,7 +26,7 @@ std::map<T, U> dijkstra(const std::map<T, Neighbors>& graph, const T& source) {
   return distance;
 }
 
-template<class U, class Neighbors, class T>
+template <class U, class Neighbors, class T>
 std::vector<U> dijkstra(const std::vector<Neighbors>& graph, const T& source) {
   std::vector<U> distance(graph.size(), std::numeric_limits<U>::max());
   distance[source] = 0;
