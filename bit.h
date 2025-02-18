@@ -9,7 +9,7 @@ class Bit {
   Bit(std::size_t size) : tree_(size + 1) {
     assert(size < std::numeric_limits<std::size_t>::max());
   }
-  
+
   Bit(const std::vector<T>& tree) : Bit(tree.size()) {
     for (std::size_t i = 1; i < tree_.size(); ++i) {
       tree_[i] += tree[i - 1];
@@ -18,7 +18,7 @@ class Bit {
       }
     }
   }
-  
+
   T Query(std::size_t index) const {
     T result = 0;
     for (++index; index > 0; index -= Lowbit(index)) {
@@ -26,16 +26,14 @@ class Bit {
     }
     return result;
   }
-  
+
   void Update(std::size_t index, T value) {
     for (++index; index < tree_.size(); index += Lowbit(index)) {
       tree_[index] += value;
     }
   }
+
  private:
   std::vector<T> tree_;
-  
-  std::size_t Lowbit(std::size_t n) {
-    return n & -n;
-  }
+  std::size_t Lowbit(std::size_t n) { return n & -n; }
 };
