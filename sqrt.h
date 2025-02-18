@@ -1,20 +1,15 @@
-#if __cplusplus >= 202002L
-  #include <bit>
-#endif
+#include <bit>
 #include <cassert>
 #include <type_traits>
 
-template<class T>
+template <class T>
 T sqrt(T n) {
   assert(n >= 0);
   if (n <= 1) {
     return n;
   }
-  #if __cplusplus >= 202002L
-    auto result = T(1) << ((std::bit_width(std::make_unsigned_t<T>(n)) - 1) / 2 + 1);
-  #else
-    auto result = n / 2;
-  #endif
+  auto result =
+      T(1) << ((std::bit_width(std::make_unsigned_t<T>(n)) - 1) / 2 + 1);
   auto next = (result + n / result) / 2;
   while (next < result) {
     result = next;
