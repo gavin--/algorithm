@@ -11,16 +11,13 @@ class SqrtDecomposition {
   SqrtDecomposition(std::span<T> data)
       : block_size_(sqrt(data.size())), data_(data), blocks_([this, &data]() {
           assert(!data.empty());
-          std::vector<T> blocks;
-          auto size = (data.size() - 1) / block_size_ + 1;
-          blocks.reserve(size);
-          for (std::size_t i = 0; i < size; ++i) {
-            T block = std::numeric_limits<T>::max();
+          std::vector<T> blocks((data.size() - 1) / block_size_ + 1,
+                                std::numeric_limits<T>::max());
+          for (std::size_t i = 0; i < blocks.size(); ++i) {
             for (std::size_t j = i * block_size_;
                  j < std::min(data_.size(), (i + 1) * block_size_); ++j) {
-              block = std::min(block, data_[j]);
+              blocks[i] = std::min(blocks[i], data_[j]);
             }
-            blocks.push_back(block);
           }
           return blocks;
         }()) {}
