@@ -6,9 +6,10 @@ template <class T>
 class PrefixTrie {
  private:
   std::vector<std::map<T, std::size_t>> trie_;
+
  public:
   PrefixTrie() : trie_(1) {}
-  
+
   void Insert(const std::basic_string<T>& key) {
     for (std::size_t i = 0, t = 0; i <= key.size(); ++i) {
       auto& child_node = trie_[t][key[i]];
@@ -19,7 +20,7 @@ class PrefixTrie {
       t = child_node;
     }
   }
-  
+
   bool Find(const std::basic_string<T>& key) const {
     for (std::size_t i = 0, t = 0; i <= key.size(); ++i) {
       auto it = trie_[t].find(key[i]);
@@ -30,7 +31,7 @@ class PrefixTrie {
     }
     return true;
   }
-  
+
   bool StartsWith(const std::basic_string<T>& key) const {
     for (std::size_t i = 0, t = 0; i < key.size(); ++i) {
       auto it = trie_[t].find(key[i]);
@@ -51,6 +52,7 @@ class Trie {
     std::map<T, Node*> children_;
   };
   Node* const root_ = new Node();
+
  public:
   void Insert(const std::basic_string<T>& key) {
     Node* node = root_;
@@ -62,7 +64,7 @@ class Trie {
       node = child_node;
     }
   }
-  
+
   void Delete(const std::basic_string<T>& key) {
     Node* node = root_;
     for (std::size_t i = 0; i < key.size(); ++i) {
@@ -72,14 +74,15 @@ class Trie {
         node = it->second;
       }
     }
-    if (auto it = node->children_.find(key[key.size()]); it == node->children_.end()) {
+    if (auto it = node->children_.find(key[key.size()]);
+        it == node->children_.end()) {
       return;
     } else {
       delete it->second;
       node->children_.erase(it);
     }
   }
-  
+
   bool Find(const std::basic_string<T>& key) const {
     Node* node = root_;
     for (std::size_t i = 0; i <= key.size(); ++i) {
