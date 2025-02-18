@@ -1,6 +1,7 @@
 #include <bit>
 #include <cassert>
 #include <limits>
+#include <random>
 #include <span>
 #include <vector>
 
@@ -8,7 +9,7 @@ template <class T>
 class SqrtDecomposition {
  public:
   SqrtDecomposition(std::span<T> data)
-      : block_size_(sqrt(data.size())), data_(data), blocks_([]() {
+      : block_size_(sqrt(data.size())), data_(data), blocks_([this, &data]() {
           assert(!data.empty());
           std::vector<T> blocks;
           auto size = (data.size() - 1) / block_size_ + 1;
@@ -36,7 +37,7 @@ class SqrtDecomposition {
       for (std::size_t i = block_begin; i < block_end; ++i) {
         result = std::min(result, blocks_[i]);
       }
-      for (std::size_t i = l; i < block_begin * block_size_; ++i) {
+      for (std::size_t i = block_end * block_size_; i < r; ++i) {
         result = std::min(result, data_[i]);
       }
     } else {
@@ -60,7 +61,7 @@ class SparseTable {
       : sparse_table_([&data]() {
           assert(!data.empty());
           std::vector<std::vector<T>> sparse_table;
-          sparse_table.resize(std::bit_width(data.size()) - 1);
+          sparse_table.resize(std::bit_width(data.size()));
           sparse_table.front().reserve(data.size());
           sparse_table.front().insert(sparse_table.front().end(), data.begin(),
                                       data.end());
