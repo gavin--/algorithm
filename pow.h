@@ -1,6 +1,6 @@
 #include <cassert>
 
-template<class T, class U>
+template <class T, class U>
 T pow(T base, U exp) {
   assert(exp >= 0);
   T result = 1;
@@ -14,7 +14,7 @@ T pow(T base, U exp) {
   return result;
 }
 
-template<class T, class U>
+template <class T, class U>
 T pow(T base, U exp, T mod) {
   assert(exp >= 0);
   T result = 1;
