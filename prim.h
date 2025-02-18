@@ -3,7 +3,7 @@
 #include <set>
 #include <vector>
 
-template<class U, class Neighbors, class T>
+template <class U, class Neighbors, class T>
 U prim(const std::vector<Neighbors>& graph, const T& source) {
   U result = 0;
   std::vector<bool> selected(graph.size());
@@ -27,7 +27,7 @@ U prim(const std::vector<Neighbors>& graph, const T& source) {
   return result;
 }
 
-template<class U, class Neighbors, class T>
+template <class U, class Neighbors, class T>
 U prim(const std::map<T, Neighbors>& graph, const T& source) {
   U result = 0;
   std::set<T> selected;
