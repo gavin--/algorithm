@@ -24,8 +24,6 @@ class Dsu<T, false> {
   }
 
   bool Union(T left, T right) {
-    assert(0 <= left && left < parent_or_size_.size());
-    assert(0 <= right && right < parent_or_size_.size());
     left = Find(left);
     right = Find(right);
     if (left == right) {
@@ -38,7 +36,6 @@ class Dsu<T, false> {
   }
 
   T Size(T vertex) {
-    assert(0 <= vertex && vertex < parent_or_size_.size());
     return parent_or_size_[Find(vertex)];
   }
 
