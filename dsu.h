@@ -1,5 +1,6 @@
 #include <cassert>
 #include <cstddef>
+#include <limits>
 #include <type_traits>
 #include <vector>
 
@@ -76,8 +77,9 @@ class Dsu<T, true> {
   }
 
   T Size(T vertex) {
-    assert(0 <= vertex && vertex < parent_or_size_.size());
-    return -parent_or_size_[Find(vertex)];
+    auto size = parent_or_size_[Find(vertex)];
+    assert(size > std::numeric_limits<T>::min());
+    return -size;
   }
 
  private:
