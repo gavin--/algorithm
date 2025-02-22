@@ -20,6 +20,7 @@ class Bit {
   }
 
   T Query(std::size_t index) const {
+    assert(index < tree_.size());
     T result = 0;
     for (++index; index > 0; index -= Lowbit(index)) {
       result += tree_[index];
@@ -28,6 +29,7 @@ class Bit {
   }
 
   void Update(std::size_t index, T value) {
+    assert(index < tree_.size());
     for (++index; index < tree_.size(); index += Lowbit(index)) {
       tree_[index] += value;
     }
