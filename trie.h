@@ -51,7 +51,7 @@ class Trie {
   void Insert(std::basic_string_view<T> key) {
     Node* node = root_;
     for (std::size_t i = 0; i <= key.size(); ++i) {
-      auto& child_node = node->children_[key[i]];
+      auto& child_node = node->children[key[i]];
       if (child_node == nullptr) {
         child_node = new Node();
       }
@@ -62,25 +62,25 @@ class Trie {
   void Delete(std::basic_string_view<T> key) {
     Node* node = root_;
     for (std::size_t i = 0; i < key.size(); ++i) {
-      if (auto it = node->children_.find(key[i]); it == node->children_.end()) {
+      if (auto it = node->children.find(key[i]); it == node->children.end()) {
         return;
       } else {
         node = it->second;
       }
     }
-    if (auto it = node->children_.find(key[key.size()]);
-        it == node->children_.end()) {
+    if (auto it = node->children.find(key[key.size()]);
+        it == node->children.end()) {
       return;
     } else {
       delete it->second;
-      node->children_.erase(it);
+      node->children.erase(it);
     }
   }
 
   bool Find(std::basic_string_view<T> key) const {
     Node* node = root_;
     for (std::size_t i = 0; i <= key.size(); ++i) {
-      if (auto it = node->children_.find(key[i]); it == node->children_.end()) {
+      if (auto it = node->children.find(key[i]); it == node->children.end()) {
         return false;
       } else {
         node = it->second;
@@ -90,9 +90,8 @@ class Trie {
   }
 
  private:
-  class Node {
-   public:
-    std::map<T, Node*> children_;
+  struct Node {
+    std::map<T, Node*> children;
   };
   Node* const root_ = new Node();
 };
