@@ -1,8 +1,6 @@
-#ifndef EXPERIMENTAL_USERS_GAVINZ_TRIE_H_
-#define EXPERIMENTAL_USERS_GAVINZ_TRIE_H_
-
 #include <cstddef>
 #include <map>
+#include <string_view>
 #include <vector>
 
 template <class T>
@@ -10,7 +8,7 @@ class PrefixTrie {
  public:
   PrefixTrie() : trie_(1) {}
 
-  void Insert(const std::basic_string<T>& key) {
+  void Insert(std::basic_string_view<T> key) {
     for (std::size_t i = 0, t = 0; i <= key.size(); ++i) {
       auto& child_node = trie_[t][key[i]];
       if (child_node == 0) {
@@ -21,7 +19,7 @@ class PrefixTrie {
     }
   }
 
-  bool Find(const std::basic_string<T>& key) const {
+  bool Find(std::basic_string_view<T> key) const {
     for (std::size_t i = 0, t = 0; i <= key.size(); ++i) {
       auto it = trie_[t].find(key[i]);
       if (it == trie_[t].end()) {
@@ -32,7 +30,7 @@ class PrefixTrie {
     return true;
   }
 
-  bool StartsWith(const std::basic_string<T>& key) const {
+  bool StartsWith(std::basic_string_view<T> key) const {
     for (std::size_t i = 0, t = 0; i < key.size(); ++i) {
       auto it = trie_[t].find(key[i]);
       if (it == trie_[t].end()) {
@@ -50,7 +48,7 @@ class PrefixTrie {
 template <class T>
 class Trie {
  public:
-  void Insert(const std::basic_string<T>& key) {
+  void Insert(std::basic_string_view<T> key) {
     Node* node = root_;
     for (std::size_t i = 0; i <= key.size(); ++i) {
       auto& child_node = node->children_[key[i]];
@@ -61,7 +59,7 @@ class Trie {
     }
   }
 
-  void Delete(const std::basic_string<T>& key) {
+  void Delete(std::basic_string_view<T> key) {
     Node* node = root_;
     for (std::size_t i = 0; i < key.size(); ++i) {
       if (auto it = node->children_.find(key[i]); it == node->children_.end()) {
@@ -79,7 +77,7 @@ class Trie {
     }
   }
 
-  bool Find(const std::basic_string<T>& key) const {
+  bool Find(std::basic_string_view<T> key) const {
     Node* node = root_;
     for (std::size_t i = 0; i <= key.size(); ++i) {
       if (auto it = node->children_.find(key[i]); it == node->children_.end()) {
@@ -98,5 +96,3 @@ class Trie {
   };
   Node* const root_ = new Node();
 };
-
-#endif  // EXPERIMENTAL_USERS_GAVINZ_TRIE_H_
