@@ -1,6 +1,8 @@
 #include <cassert>
 #include <cstddef>
 #include <limits>
+#include <ranges>
+#include <span>
 #include <vector>
 
 template <class T>
@@ -10,14 +12,9 @@ class Bit {
     assert(size < std::numeric_limits<std::size_t>::max());
   }
 
-  Bit(const std::vector<T>& tree) : Bit(tree.size()) {
-    for (std::size_t i = 1; i < tree_.size(); ++i) {
-      tree_[i] += tree[i - 1];
-      if (auto parent = i + Lowbit(i); parent < tree_.size()) {
-        tree_[parent] += tree_[i];
-      }
-    }
-  }
+  template <std::ranges::contiguous_range R>
+    requires std::ranges::sized_range<R>
+  Bit(R&& tree) : Bit(std::span<const std::ranges::range_value_t<R>>(tree)) {}
 
   T Query(std::size_t index) const {
     assert(index < tree_.size());
@@ -37,5 +34,13 @@ class Bit {
 
  private:
   std::vector<T> tree_;
-  std::size_t Lowbit(std::size_t n) { return n & -n; }
+  std::size_t Lowbit(std::size_t n) const { return n & -n; }
+  Bit(std::span<const T> tree) : Bit(tree.size()) {
+    for (std::size_t i = 1; i < tree_.size(); ++i) {
+      tree_[i] += tree[i - 1];
+      if (auto parent = i + Lowbit(i); parent < tree_.size()) {
+        tree_[parent] += tree_[i];
+      }
+    }
+  }
 };
