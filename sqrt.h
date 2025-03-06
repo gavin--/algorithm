@@ -3,8 +3,8 @@
 #include <type_traits>
 
 template <class T>
-T sqrt(T n) {
-  assert(n >= 0);
+T Sqrt(T n) {
+  assert(0 <= n);
   if (n <= 1) {
     return n;
   }
