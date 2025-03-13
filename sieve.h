@@ -1,7 +1,7 @@
 #include <vector>
 
 template <class T>
-std::vector<T> sieve(std::size_t size) {
+std::vector<T> Sieve(std::size_t size) {
   std::vector<T> primes;
   std::vector<bool> composite(size);
   for (std::size_t i = 2; i < size; ++i) {
