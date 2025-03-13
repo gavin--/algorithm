@@ -36,8 +36,8 @@ class Bit {
   explicit Bit(std::span<const T> tree) : Bit(tree.size()) {
     for (std::size_t i = 1; i <= tree_.size(); ++i) {
       tree_[i - 1] += tree[i - 1];
-      if (auto parent = i + Lowbit(i); parent < tree_.size()) {
-        tree_[parent] += tree_[i - 1];
+      if (auto parent = i + Lowbit(i); parent <= tree_.size()) {
+        tree_[parent - 1] += tree_[i - 1];
       }
     }
   }
