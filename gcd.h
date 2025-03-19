@@ -5,8 +5,8 @@
 #include <utility>
 
 template <class M, class N>
-std::pair<std::common_type_t<M, N>, std::common_type_t<M, N>> extended_gcd(
-    M m, N n) {
+std::pair<std::common_type_t<M, N>, std::common_type_t<M, N>> ExtendedGcd(M m,
+                                                                          N n) {
   std::common_type_t<M, N> t = 0, next_t = 1, r = n, next_r = m;
   while (next_r != 0) {
     auto q = r / next_r;
@@ -18,9 +18,9 @@ std::pair<std::common_type_t<M, N>, std::common_type_t<M, N>> extended_gcd(
 
 // Returns a positive multiplicative inverse of `a` modulo `n`.
 template <class M, class N>
-std::common_type_t<M, N> inverse(M a, N n) {
+std::common_type_t<M, N> Inverse(M a, N n) {
   assert(std::gcd(a, n) == 1);
-  auto result = extended_gcd(a, n).second;
+  auto result = ExtendedGcd(a, n).second;
   if (result < 0) {
     result += n;
   }
