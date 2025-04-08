@@ -9,8 +9,7 @@ class Kmp {
   explicit Kmp(std::basic_string_view<T> w)
       : w_(w), t_([](auto w) {
           std::vector<std::size_t> t(w.size());
-          for (std::size_t i = 1; i < w.size(); ++i) {
-            std::size_t j = t[i - 1];
+          for (std::size_t i = 1, j = 0; i < w.size(); ++i) {
             while (j > 0 && w[i] != w[j]) {
               j = t[j - 1];
             }
@@ -23,14 +22,14 @@ class Kmp {
         }(w)) {}
 
   std::size_t Find(std::basic_string_view<T> s) const {
-    for (std::size_t i = 0, k = 0; i < s.size(); ++i) {
-      while (k > 0 && w_[k] != s[i]) {
-        k = t_[k - 1];
+    for (std::size_t i = 0, j = 0; i < s.size(); ++i) {
+      while (j > 0 && w_[j] != s[i]) {
+        j = t_[j - 1];
       }
-      if (w_[k] == s[i]) {
-        ++k;
+      if (w_[j] == s[i]) {
+        ++j;
       }
-      if (k == w_.size()) {
+      if (j == w_.size()) {
         return i + 1 - w_.size();
       }
     }
