@@ -2,7 +2,7 @@
 
 class Timer {
  public:
-  auto Stop() const {
+  auto GetDuration() const {
     return std::chrono::high_resolution_clock::now() - start_time_;
   }
   void Reset() { start_time_ = std::chrono::high_resolution_clock::now(); }
