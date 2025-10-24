@@ -1,4 +1,5 @@
 #include <cassert>
+#include <type_traits>
 
 template <class T, class U>
 T Pow(T base, U exp) {
@@ -14,8 +15,8 @@ T Pow(T base, U exp) {
   return result;
 }
 
-template <class T, class U>
-T Pow(T base, U exp, T mod) {
+template <class T, class U, class V>
+std::common_type_t<T, U> Pow(T base, U exp, V mod) {
   assert(exp >= 0);
   T result = 1;
   while (exp > 0) {
