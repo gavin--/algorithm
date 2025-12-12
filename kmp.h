@@ -37,6 +37,6 @@ class Kmp {
   }
 
  private:
-  const std::basic_string_view<T> w_;
-  const std::vector<std::size_t> t_;
+  std::basic_string_view<T> w_;
+  std::vector<std::size_t> t_;
 };
