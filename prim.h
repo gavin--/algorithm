@@ -4,7 +4,7 @@
 #include <vector>
 
 template <class U, class Neighbors, class T>
-U prim(const std::vector<Neighbors>& graph, const T& source) {
+U Prim(const std::vector<Neighbors>& graph, const T& source) {
   U result = 0;
   std::vector<bool> selected(graph.size());
   std::vector<U> dist(graph.size(), std::numeric_limits<U>::max());
@@ -28,7 +28,7 @@ U prim(const std::vector<Neighbors>& graph, const T& source) {
 }
 
 template <class U, class Neighbors, class T>
-U prim(const std::map<T, Neighbors>& graph, const T& source) {
+U Prim(const std::map<T, Neighbors>& graph, const T& source) {
   U result = 0;
   std::set<T> selected;
   std::map<T, U> dist;
