@@ -9,9 +9,9 @@ template <class T>
 class SqrtDecomposition {
  public:
   SqrtDecomposition(std::span<T> data)
-      : block_size_(sqrt(data.size())), data_(data), blocks_([this, &data]() {
-          assert(!data.empty());
-          std::vector<T> blocks((data.size() - 1) / block_size_ + 1,
+      : block_size_(Sqrt(data.size())), data_(data), blocks_([this]() {
+          assert(!data_.empty());
+          std::vector<T> blocks((data_.size() - 1) / block_size_ + 1,
                                 std::numeric_limits<T>::max());
           for (std::size_t i = 0; i < blocks.size(); ++i) {
             for (std::size_t j = i * block_size_;
