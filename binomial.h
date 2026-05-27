@@ -13,7 +13,7 @@ class Binomial {
     std::vector<N> inv(size, 1);
     for (std::common_type_t<M, N> i = 2; i < size; ++i) {
       factorial_[i] = factorial_[i - 1] * i % mod_;
-      inv[i] = (-mod_ / i + mod_) * inv[mod_ % i] % mod_;
+      inv[i] = mod_ - mod_ / i * inv[mod_ % i] % mod_;
       assert(inv[i] > 0);
       inverse_factorial_[i] = inverse_factorial_[i - 1] * inv[i] % mod_;
     }
